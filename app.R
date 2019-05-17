@@ -10,6 +10,8 @@ library(reshape2)
 library(ggplot2)
 library(rmapshaper)
 library(leaflet.extras)
+library(tippy)
+
 ##local code file used for naming the suburbs 
 citycode = read.csv("LOCAL_CODE.csv",header = TRUE)
 citycode$Name = trimws(citycode$Name) # Trim ws
@@ -90,6 +92,7 @@ ui <- fluidPage(tags$style(HTML("
                   conditionalPanel(
                     condition = "(input.tabs == 1)",
                     h3("E-waste generation in Victoria", align = "center", style = "color:blue;font-family: 'georgia';"),
+                   
                     leafletOutput("mymap",width = 1000, height = 600)
                     )
                 )
@@ -153,29 +156,35 @@ server <- function(input, output, session) {
                     ,
                     label=~Name,
                     group = spdf@data$Name)%>%
-         
-        addSearchFeatures(
+        
+    
+        #addTooltip(session, id, title, placement = "bottom", trigger = "hover", options = NULL)
+        
+       
+         addControl(
+         "<font><B>Search Councils below</B></font>",
+          position='topleft' ) %>%
+        
+        addSearchFeatures( 
+     
           targetGroups  = spdf@data$Name,
-          options = searchFeaturesOptions(zoom=9.5, openPopup=TRUE)) %>%
+          options = searchFeaturesOptions(position = "topleft",zoom=9.5, openPopup=TRUE,autoCollapse = FALSE)) %>%
+        
         addLegend("topright", 
                 colors =c('darkred','orange','yellow','lightgreen','darkgreen'),
                 labels= c('5000 - 3000','3000-1000','1000-500','500-100','100-0'),
                 title= "Tonnes of E-waste generated in 2018",
                 opacity = 1) %>%
+       # addControl(
+       #   "<P><center><B><font color='red'>Hint!</font></B></center>Search for council names<br/>Example:<br/><ul><li>Monash</li><li>Hume</li><li>Melbourne</li><li>Knox</li></ul></P>",
+       #   position='bottomright')%>%
+        addControl(
+          "<font><B>Reset Map</B></font>",
+          position='topleft')%>%
         addResetMapButton()
   })
     
-    # output$comparison <- reactivePlot(function()     ##boxplot output
-    # {
-    #   first_selection <- as.character(input$first)
-    #   second_selection <- as.character(input$second)
-    #   plot_data = boxplot_data[which ((boxplot_data$Name == first_selection) | (boxplot_data$Name == second_selection)), ]
-    #   
-    #   ggplot(plot_data, aes(factor(plot_data$Name), plot_data$value, fill =plot_data$variable)) + 
-    #     geom_bar(stat="identity", position = "dodge") +  ggtitle("Comparing e-Waste generated") +
-    #     scale_fill_brewer(palette = "Set1") +xlab("Regions")+ylab("E-waste generated") + labs(fill = "Year")
-    #   
-    # }, height = 700, width = 700)
+
     
     output$comparison <- renderPlot(     ##boxplot output
       {
