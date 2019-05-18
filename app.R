@@ -1,7 +1,16 @@
+#install.packages("leaflet")
+#install.packages("rgdal")
+#install.packages("plyr")
+#install.packages("reshape2")
+#install.packages("reshape2")
+#install.packages("ggplot2")
+#install.packages("rmapshaper")
+#install.packages("leaflet.extras")
+#install.packages("tippy")
+#install.packages("bigrquery")
+
+
 #setwd("/Users/shashanksharma/Desktop/iter 1 final")
-
-
-
 ##libraries used
 library(leaflet)
 library(rgdal)
@@ -11,18 +20,8 @@ library(ggplot2)
 library(rmapshaper)
 library(leaflet.extras)
 library(tippy)
+library(bigrquery)
 
-##local code file used for naming the suburbs 
-citycode = read.csv("LOCAL_CODE.csv",header = TRUE)
-citycode$Name = trimws(citycode$Name) # Trim ws
-
-##renaming thew columns
-# names(citycode)[names(citycode) == "X...Name"] <- "Name"
-# names(citycode)[names(citycode) %like% "Name"] <- "Name"
-
-names(citycode)[names(citycode) == "Code"] <- "LG_PLY_PID"
-
-#head(citycode)
 
 ##data from the venar list fole named clean_data
 waste_data = read.csv("clean_data.csv",header = TRUE)
@@ -31,7 +30,7 @@ waste_data = read.csv("clean_data.csv",header = TRUE)
 # Fix for Mornington Peninsula
 waste_data$Local.Government = revalue(waste_data$Local.Government, c("PENINSULA" = 'MORNINGTON PENINSULA'))
 
-##removing commas from numbers and then converting it ti numeric form 
+##removing commas from numbers and then converting it ti numeric form
 waste_data$X2018 <- as.numeric(as.character(gsub(",","",waste_data$X2018)))
 waste_data$X2035 <- as.numeric(as.character(gsub(",","",waste_data$X2035)))
 
@@ -49,8 +48,32 @@ count_waste = setNames(as.data.frame(table(waste_data$Local.Government)),c('Name
 
 ##loading shapefile
 spdf = readOGR(dsn = getwd(), layer = "VIC_LGA_POLYGON_shp")
-spdf = rmapshaper::ms_simplify(spdf, keep = 0.05)
 
+
+# Code that is used to make deployment version more lightweight.
+# spdf = rmapshaper::ms_simplify(spdf, keep = 0.05)
+# save.image("mapping_data.RData")
+# load("mapping_data.RData")
+
+
+## Datafile for merging LGA data and contact information.
+## Downloaded from Google Bigquery
+# Bigquery service token
+set_service_token('e-waste-database-2d9d97da8b37.json')
+
+tb <- bq_dataset_query(
+  x = "e-waste-database.db_council",
+  query = "SELECT * FROM lga_details"
+)
+
+citycode <- bq_table_download(tb)
+
+citycode$Name = trimws(citycode$Name) # Trim ws
+names(citycode)[names(citycode) == "Code"] <- "LG_PLY_PID"
+
+
+
+#head(citycode)
 
 ##merging all the files to the shapdefile data
 spdf@data = data.frame(spdf@data, citycode[match(spdf@data$LG_PLY_PID, citycode$LG_PLY_PID),])
@@ -161,27 +184,31 @@ server <- function(input, output, session) {
       #addTooltip(session, id, title, placement = "bottom", trigger = "hover", options = NULL)
       
       
-      addControl(
-        "<font><B>Search Councils below</B></font>",
-        position='topleft' ) %>%
+      # addControl(
+      #   "<font><B>Search Councils below</B></font>",
+      #   position='topleft' ) %>%
       
+      ##for searching purposes
       addSearchFeatures( 
         
         targetGroups  = spdf@data$Name,
-        options = searchFeaturesOptions(position = "topleft",zoom=9.5, openPopup=TRUE,autoCollapse = FALSE)) %>%
+        options = searchFeaturesOptions(position = "topleft",zoom=9.5, openPopup=TRUE,autoCollapse = FALSE, collapsed=FALSE, textPlaceholder = "Search councils")) %>%
       
-      addLegend("topright", 
+        addLegend("topright", 
                 colors =c('darkred','orange','yellow','lightgreen','darkgreen'),
                 labels= c('5000 - 3000','3000-1000','1000-500','500-100','100-0'),
                 title= "Tonnes of E-waste generated in 2018",
                 opacity = 1) %>%
+
       # addControl(
       #   "<P><center><B><font color='red'>Hint!</font></B></center>Search for council names<br/>Example:<br/><ul><li>Monash</li><li>Hume</li><li>Melbourne</li><li>Knox</li></ul></P>",
       #   position='bottomright')%>%
       addControl(
-        "<font><B>Reset Map</B></font>",
+        "<font><B>Reset Map Below</B></font>",
         position='topleft')%>%
       addResetMapButton()
+      
+
   })
   
   
