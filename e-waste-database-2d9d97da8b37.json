@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "e-waste-database",
+  "private_key_id": "2d9d97da8b3736aa26e3a22d0d53860ec8b9d7d3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCmx4cilUIxJAgn\nsxyEBKbvWzu+/FIMQ2I1ElyuvyS0DtL5ckXWXR+/J65TrmFw4YeFZPP60z6CugqT\ngzWfwAEu8/P4IHFJiskR8+COkQEdnC3TnM3x6mciLsjH5WuQeqF+/0NfTkOuYXag\nEGOuKfg0L8RzFHOvJ+DkMHaSLsDd08i1PNxA1NF4HOlvk+fdh4VVtcUcNfg/fgUx\n3ENFyeljB+uxdgqUot7YV8FO1ngI9pe59LehUmtumhy7WAjXLkw5H2ZxG0UGjmTz\n3TUlDAqBMb2pnrs9FKHRQG6YwByPhHQlXr6zITbgqUpJdmRIAjAIpPa2F7iFslmf\ncKq5c9N7AgMBAAECggEAODAts3WEzOh+RN2/pCyrDyX2DYSVoeML0aSDjC4CkBUU\neAzLQYqzOOQGA9RSqMSas1LNLfqAa2uBR6xjYxQ9cdOnpLdNY4D59+3pgC6TKSYm\nfE4uRiv6HhaT92CwKgdepFocmR3ViIj2fbu30YP7Rp23OiwwQ1kUl9xJ/jr5KGJ3\nw9a8gMyjsZMvFouyoNIDRqtTZU4dhM2NuaOAdmnyOmwZWr5xwTqNlZG/H13wgYnF\nIIkPfrNGHx360a40pUZFrAXX/DvB5g50jRlZXN0LOok/ev5e8ItZAiB/MR9G1pGC\n4pWVHkjQTke362aEcKOjRhlyCmgmAX3d5OsnKRHB+QKBgQDVsvPxHC5ToXbZ6nip\nLmyIOPS/CRXtHdy0AZq2r5eb1URh+uHOnmEaO9RaOpj1GOgr5Kky6nrj/LmjCodt\nQaPbgsZGejXmSnPgoucFQKJ6B/cvDitO8ioj6/cmBNKGsvzqy1E+uTU1Nb4/GLyZ\nBAwv8Qidjdq3PCzsm5/tS6smiQKBgQDHyvS+mkTNbpb66fafKU28kFaKFnhU4nxg\neTwauWd2QHokStzs/XKco1auOijFPDGpIqgp5EoCVH1QfmJr+MFtetVk7Wuk3zIo\nH0rJWqdflaWksptTfjlVYoeVKeicoOyNyRley2Bv5Sgn5Bw6IUN7O/rjTpQ5tEjV\noOKTvoFo4wKBgHOC/MtqwTvhfl4CmOBSQMZNizYsEhcO2jrO1zNCrP/GAuW3eBF4\nmOJWTs3K+N0bbnwzaKYmCvFrrWiNC3EqVwkTolt8OeBWhFZ7l8bGDk1KOvnLfet5\niP/Lz9dUKfw3ifDcn/j4oeM2PrTaiS9o+bF8Z3zKrdv4AgyPfp4FFemJAoGAJ387\n+yJMT8B5IIl4M+bac1ilgw8GIuHTbM8Kzs2wYnREsUALhN5l9glkbXUZ8kQAHUu4\nqu9yohtJ2svhcS7wLlCGNzmoeiOVqtDk3AGL7R2MbY7RniPp+bNM0nRChBRcL3t+\nBHt4SSaoVZqG6gcBbC9jXeR+8Rlu/Kydnk+fDbkCgYAOEjwvp4KAJsqRq5R5HHqu\n8bbj78HnpJahiXBYMFRv4IBFQB3Aqvf9QaacqgoMPJyccfPDorCIJbFmO38wdzp/\ncOHpawG8fKALVoSI6y9Z8APo5LUx4QmQc7HMWCJWgJkGxhTC5BrOQjFKhZRz9LCR\nfS93nC4nRbSP+Rsssp7iKw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "surge-bigquery@e-waste-database.iam.gserviceaccount.com",
+  "client_id": "115568728480315065970",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/surge-bigquery%40e-waste-database.iam.gserviceaccount.com"
+}
