@@ -100,6 +100,9 @@ pal <- colorFactor(
   domain = spdf@data$`X2018`
 )
 
+######################################
+######USER INTERFACE CODE############
+#####################################
 
 ui <- fluidPage(tags$style(HTML("
                                 .tabs-above > .nav > li[class=active] > a {
@@ -150,7 +153,9 @@ ui <- fluidPage(tags$style(HTML("
 
 
 
-
+######################################
+######SERVER CODE############
+#####################################
 
 
 server <- function(input, output, session) {
