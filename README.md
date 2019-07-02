@@ -3,4 +3,4 @@ This web application visualises E-waste generation in different councils in Vict
 
 The visualisation could be viewed using the url below
 
-https://shashanksharma9313.shinyapps.io/E-waste/
+https://shashank26sharma.shinyapps.io/E-Waste-generation-Visualisation/
