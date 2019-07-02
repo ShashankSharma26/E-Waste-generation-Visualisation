@@ -1,0 +1,13 @@
+name: E-Waste-generation-Visualisation
+title: E-Waste-generation-Visualisation
+username:
+account: shashank26sharma
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 940373
+bundleId: 2193929
+url: https://shashank26sharma.shinyapps.io/E-Waste-generation-Visualisation/
+when: 1562066421.98769
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: README.md

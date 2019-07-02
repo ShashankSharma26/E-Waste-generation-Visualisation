@@ -5,8 +5,8 @@ account: shashanksharma9313
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 902123
-bundleId: 2093507
+bundleId: 2095959
 url: https://shashanksharma9313.shinyapps.io/E-waste/
-when: 1558183754.89758
+when: 1558346216.89926
 asMultiple: FALSE
 asStatic: FALSE
