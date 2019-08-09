@@ -1,4 +1,4 @@
-##to intall required packages
+##Intall required packages
 #install.packages("leaflet")
 #install.packages("rgdal")
 #install.packages("plyr")
@@ -13,7 +13,7 @@
 
 
 
-##libraries used
+##Loading packages
 library(leaflet)
 # library(rgdal)
 library(plyr)
@@ -29,23 +29,10 @@ library(shinyWidgets)
 load("mapping_data.RData")
 
 
-## Datafile for merging LGA data and contact information.
-## Downloaded from Google Bigquery
-# Bigquery service token
-#set_service_token('e-waste-database-2d9d97da8b37.json')
-# 
-# tb <- bq_dataset_query(
-#   x = "e-waste-database.db_council",
-#   query = "SELECT * FROM lga_details"
-# )
-
+##Reading Council local code data
 citycode <- read.csv("LOCAL_CODE.csv")
-
 citycode$Name = trimws(citycode$Name) # Trim ws
 names(citycode)[names(citycode) == "Code"] <- "LG_PLY_PID"
-
-
-
 #head(citycode)
 
 ##merging all the files to the shapdefile data
@@ -59,7 +46,6 @@ spdf@data = data.frame(spdf@data, count_waste[match(spdf@data$Name, count_waste$
 # spdf@data$`X2035`[is.na(spdf@data$`X2035`)] = 0
 spdf@data$Count[is.na(spdf@data$Count)] = 0
 
-
 #unique(spdf@data$Count)
 
 #melting for grouped bar chart
@@ -69,7 +55,6 @@ boxplot_data <- melt(waste_sum, id=c("Name"))
 ##colouring the map based on number of collection points in region
 pal <- colorFactor(
   palette = c('darkgreen','lightgreen','yellow','orange','darkred'),
-  #  domain = spdf@data$Count
   domain = spdf@data$`X2018`
 )
 
@@ -81,47 +66,49 @@ ui <- fluidPage(tags$style(HTML("
     .tabbable > .nav > li > a                  {background-color: #D3D3D3;  color:black}
     .tabbable > .nav > li[class=active]    > a {background-color: grey; color:black}
      ")),
+                
   setBackgroundColor("offwhite"),
+  
   tabsetPanel(                                             ##setting tab values
+    
     tabPanel(
       h6(strong("All Councils"),style = "color:black;font-family: 'arial';"), value = 1,##for all regions 
-      
-      
       mainPanel(
         conditionalPanel(
-          condition = "(input.tabs == 1)",
-          h3("E-waste generation in Victoria", align = "center", style = "color:black;font-family: 'arial';"),
-          
-          leafletOutput("mymap",width = 1200, height = 700)
-        )
-      )
-    )
+                      condition = "(input.tabs == 1)",
+                      h3("E-waste generation in Victoria", align = "center", style = "color:black;font-family: 'arial';"),
+                      leafletOutput("mymap",width = 1200, height = 700)
+                      )
+               )
+          ),
     
-    ,
     
     tabPanel(
       h6(strong("Compare Councils"),style = "color:black;font-family: 'arial';"), value = 2,##for comparison
+      
       sidebarLayout(
-        sidebarPanel(
-          selectInput("first",                                                 ##selection input
-                      h6(strong("Select first council"),style = "color:brown;font-family: 'arial';"),
-                      choices = unique(boxplot_data$Name)
-          ),
-          selectInput("second",                                                 ##selection input
-                      h6(strong("Select second council"),style = "color:brown;font-family: 'arial';"),
-                      choices = unique(boxplot_data$Name),
-                      selected = c("ARARAT")
+          sidebarPanel(
+            selectInput("first",                                                 ##selection input
+                        h6(strong("Select first council"),style = "color:brown;font-family: 'arial';"),
+                        choices = unique(boxplot_data$Name)
+                      ),
+            selectInput("second",                                                 ##selection input
+                        h6(strong("Select second council"),style = "color:brown;font-family: 'arial';"),
+                        choices = unique(boxplot_data$Name),
+                        selected = c("ARARAT")
                       
-          )
-        )
-        ,
-        mainPanel(
-          plotOutput("comparison") 
-        )
-      ) 
-    ),
+                        )
+                      ),
+          
+          mainPanel(
+            plotOutput("comparison") 
+                    )
+          
+            ) 
+          ),
+    
     id= 'tabs'
-)
+      )
 )
 
 
@@ -132,7 +119,7 @@ ui <- fluidPage(tags$style(HTML("
 server <- function(input, output, session) {
   
   output$mymap <- renderLeaflet({          ##leaflet output
-    ##leaflet visualising the data
+
     ##leaflet visualising the data
     leaflet(spdf) %>% 
       addTiles() %>% 
@@ -156,7 +143,7 @@ server <- function(input, output, session) {
                   group = spdf@data$Name
                   )%>%
      
-       ### to search for coouncils in the mapEEE
+      ### to search for coouncils in the map
       addSearchFeatures(                    
         targetGroups  = spdf@data$Name,
         options = searchFeaturesOptions(position = "topleft",
@@ -167,7 +154,7 @@ server <- function(input, output, session) {
                                         textPlaceholder = "Search councils")
                       ) %>%
       
-        addLegend("topright", 
+      addLegend("topright", 
                 colors =c('darkred','orange','yellow','lightgreen','darkgreen'),
                 labels= c('5000 - 3000','3000-1000','1000-500','500-100','100-0'),
                 title= "Tonnes of E-waste generated in 2018",
